@@ -27,6 +27,8 @@
 // ********************************************************************************************* // 
 // CONSTANTS
 // ********************************************************************************************* //
+#define GPIO_HOUR_UP            2
+#define GPIO_MINUTE_UP          3
 #define GPIO_E                  22
 #define GPIO_S                  23
 #define GPIO_ON                 24
@@ -52,7 +54,6 @@
 #define GPIO_CINCO              44
 #define GPIO_MEDIA              45
 #define GPIO_CUARTO             46
-#define GPIO_SUMMERTIME         52
 
 
 // ********************************************************************************************* // 
@@ -79,7 +80,13 @@ void setup() {
       // Set specific date, for example; 21st of January 2016 at 03:00:00
       // rtc.adjust(DateTime(2016, 1, 21, 3, 0, 0));
    }
+   // Switch off leds
    switchOffLeds();
+   // Init interrupts
+   pinMode(GPIO_HOUR_UP, INPUT);
+   pinMode(GPIO_MINUTE_UP, INPUT);
+   attachInterrupt(digitalPinToInterrupt(GPIO_HOUR_UP), increaseHour, FALLING);
+   attachInterrupt(digitalPinToInterrupt(GPIO_MINUTE_UP), increaseMinute, FALLING);
 }
 
 
@@ -87,7 +94,7 @@ void setup() {
 // MAIN
 // ********************************************************************************************* //
 void loop() {
-   // Obtener fecha actual y mostrar por Serial
+   // Get current date and print the suitable leds
    DateTime now = rtc.now();
    printDate(now);
    delay(30000);
@@ -97,7 +104,31 @@ void loop() {
 // ********************************************************************************************* // 
 // FUNCTIONS
 // ********************************************************************************************* /
-//printDate: Switch on the suitable leds depending on current time
+// increaseHour: increases the hour for each new interrupt
+void increaseHour(){
+  DateTime now = rtc.now();
+  int newHour;
+  if (now.hour() == 23){
+    newHour = 0;
+  }
+  else{
+    newHour = newHour+1;
+  }
+  rtc.adjust(DateTime(now.year(), now.month(), now.year(), newHour, now.minute(), now.second()));
+}
+
+// increaseMinute: increases the minutes for each new interrupt
+void increaseMinute(){
+  DateTime now = rtc.now();
+  int newMinute;
+  newMinute = ((now.minute() % 5) + 1) * 5;
+  if (newMinute >= 60){
+    newMinute = 0;
+  }
+  rtc.adjust(DateTime(now.year(), now.month(), now.year(), now.hour(), newMinute, now.second()));
+}
+
+// printDate: Switches on the suitable leds depending on current time
 void printDate(DateTime date)
 {
    // Get current hour & minute
@@ -110,16 +141,6 @@ void printDate(DateTime date)
    if ((currentHour!=lastHour) or (currentMinute!=lastMinute)){
      lastHour = currentHour;  
      lastMinute = currentMinute;
-
-     // Update to summertime (27/03/2022 must be activated)
-     if (digitalRead(GPIO_SUMMERTIME) == HIGH){
-       if (currentHour==23){
-         currentHour=0;
-       }
-       else{
-         currentHour=currentHour+1;
-       }
-     }
 
      // Serial print time
      Serial.print(currentHour);
