@@ -23,6 +23,7 @@
 // ********************************************************************************************* //
 #include <Wire.h>
 #include "RTClib.h"
+#include <LowPower.h>
 
 // ********************************************************************************************* // 
 // CONSTANTS
@@ -49,9 +50,9 @@
 #define GPIO_Y                  39
 #define GPIO_MENOS              40
 #define GPIO_VEINTE             41
-#define GPIO_DIEZ               42
+#define GPIO_DIEZ_2             42
 #define GPIO_VEINTI             43
-#define GPIO_CINCO              44
+#define GPIO_CINCO_2            44
 #define GPIO_MEDIA              45
 #define GPIO_CUARTO             46
 
@@ -97,7 +98,7 @@ void loop() {
    // Get current date and print the suitable leds
    DateTime now = rtc.now();
    printDate(now);
-   delay(30000);
+   LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
 }
 
 
@@ -213,10 +214,10 @@ void printDate(DateTime date)
 
      // Print minutes
      if (currentMinute==5 or currentMinute==55) {
-       digitalWrite(GPIO_CINCO,HIGH);
+       digitalWrite(GPIO_CINCO_2,HIGH);
      }
      else if (currentMinute==10 or currentMinute==50) {
-       digitalWrite(GPIO_DIEZ,HIGH);
+       digitalWrite(GPIO_DIEZ_2,HIGH);
      }
      else if (currentMinute==15 or currentMinute==45) {
        digitalWrite(GPIO_CUARTO,HIGH);
@@ -226,7 +227,7 @@ void printDate(DateTime date)
      }
      else if (currentMinute==25 or currentMinute==35) {
        digitalWrite(GPIO_VEINTI,HIGH);
-       digitalWrite(GPIO_CINCO,HIGH);
+       digitalWrite(GPIO_CINCO_2,HIGH);
      }
      
    }
