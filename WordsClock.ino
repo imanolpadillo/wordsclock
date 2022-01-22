@@ -13,10 +13,10 @@
 // External module: RTC DS3213
 //      DS3213    |    Arduino Mega
 // __________________________________
-//        SCL     |       A5
-//        SDA     |       A4
-//        Vcc     |       5V
-//        GND     |      GND
+//        SCL  4  |       A5
+//        SDA  3  |       A4
+//        Vcc  2  |       5V
+//        GND  1  |      GND
 
 // ********************************************************************************************* //
 // INCLUDES 
@@ -63,6 +63,8 @@
 RTC_DS3231 rtc;
 int lastHour;
 int lastMinute;
+volatile bool increaseHourFlag = false;
+volatile bool increaseMinuteFlag = false;
 
 
 // ********************************************************************************************* // 
@@ -86,8 +88,8 @@ void setup() {
    // Init interrupts
    pinMode(GPIO_HOUR_UP, INPUT);
    pinMode(GPIO_MINUTE_UP, INPUT);
-   attachInterrupt(digitalPinToInterrupt(GPIO_HOUR_UP), increaseHour, FALLING);
-   attachInterrupt(digitalPinToInterrupt(GPIO_MINUTE_UP), increaseMinute, FALLING);
+   attachInterrupt(digitalPinToInterrupt(GPIO_HOUR_UP), increaseHourInterrupt, FALLING);
+   attachInterrupt(digitalPinToInterrupt(GPIO_MINUTE_UP), increaseMinuteInterrupt, FALLING);
 }
 
 
@@ -95,34 +97,61 @@ void setup() {
 // MAIN
 // ********************************************************************************************* //
 void loop() {
+   //LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
+   //LowPower.idle(SLEEP_8S, ADC_OFF, TIMER5_OFF, TIMER4_OFF, TIMER3_OFF, 
+   //    TIMER2_OFF, TIMER1_OFF, TIMER0_OFF, SPI_OFF, USART3_OFF, 
+   //    USART2_OFF, USART1_OFF, USART0_OFF, TWI_OFF);
+   
    // Get current date and print the suitable leds
-   DateTime now = rtc.now();
-   printDate(now);
-   LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
+   printDate();
+
+   // check increase time
+   if (increaseHourFlag == true){
+     increaseHour();
+     delay(1000);
+     increaseHourFlag = false;
+   }
+   else if (increaseMinuteFlag == true){
+     increaseMinute();
+     delay(1000);
+     increaseMinuteFlag = false;
+   }
 }
 
 
 // ********************************************************************************************* // 
 // FUNCTIONS
 // ********************************************************************************************* /
+// increaseHourInterrupt: increases the hour flag
+void increaseHourInterrupt(){
+  increaseHourFlag = true;
+}
+
 // increaseHour: increases the hour for each new interrupt
 void increaseHour(){
+  Serial.println("Increase_hour");
   DateTime now = rtc.now();
   int newHour;
   if (now.hour() == 23){
     newHour = 0;
   }
   else{
-    newHour = newHour+1;
+    newHour = now.hour()+1;
   }
   rtc.adjust(DateTime(now.year(), now.month(), now.year(), newHour, now.minute(), now.second()));
 }
 
+// increaseMinuteInterrupt: increases the minute flag
+void increaseMinuteInterrupt(){
+  increaseMinuteFlag = true;
+}
+
 // increaseMinute: increases the minutes for each new interrupt
 void increaseMinute(){
+  Serial.println("Increase_minute");
   DateTime now = rtc.now();
   int newMinute;
-  newMinute = ((now.minute() % 5) + 1) * 5;
+  newMinute = (int((now.minute() / 5)) + 1) * 5;
   if (newMinute >= 60){
     newMinute = 0;
   }
@@ -130,13 +159,28 @@ void increaseMinute(){
 }
 
 // printDate: Switches on the suitable leds depending on current time
-void printDate(DateTime date)
+void printDate()
 {
+   DateTime date = rtc.now();
    // Get current hour & minute
    int currentHour;
    int currentMinute;
    currentHour = date.hour();
-   currentMinute = (date.minute() % 5) * 5;
+   currentMinute = int((date.minute() / 5)) * 5;
+
+   /*
+   Serial.print(date.hour(),DEC);
+   Serial.print(':');
+   Serial.print(date.minute(),DEC);
+   Serial.print(" --> ");
+   Serial.print(currentHour);
+   Serial.print(':');
+   Serial.print(currentMinute);
+   Serial.print(" --> ");
+   Serial.print(lastHour);
+   Serial.print(':');
+   Serial.println(lastMinute);
+   */
 
    // Check for a change in time
    if ((currentHour!=lastHour) or (currentMinute!=lastMinute)){
@@ -144,6 +188,7 @@ void printDate(DateTime date)
      lastMinute = currentMinute;
 
      // Serial print time
+     Serial.println("Change Time");
      Serial.print(currentHour);
      Serial.print(':');
      Serial.println(currentMinute);
