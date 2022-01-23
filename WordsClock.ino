@@ -90,6 +90,31 @@ void setup() {
    pinMode(GPIO_MINUTE_UP, INPUT);
    attachInterrupt(digitalPinToInterrupt(GPIO_HOUR_UP), increaseHourInterrupt, FALLING);
    attachInterrupt(digitalPinToInterrupt(GPIO_MINUTE_UP), increaseMinuteInterrupt, FALLING);
+
+   pinMode(GPIO_E, OUTPUT);
+   pinMode(GPIO_S, OUTPUT);
+   pinMode(GPIO_ON, OUTPUT);
+   pinMode(GPIO_LA, OUTPUT);
+   pinMode(GPIO_S_2, OUTPUT);
+   pinMode(GPIO_UNA, OUTPUT);
+   pinMode(GPIO_DOS, OUTPUT);
+   pinMode(GPIO_TRES, OUTPUT);
+   pinMode(GPIO_CUATRO, OUTPUT);
+   pinMode(GPIO_CINCO, OUTPUT);
+   pinMode(GPIO_SEIS, OUTPUT);
+   pinMode(GPIO_SIETE, OUTPUT);
+   pinMode(GPIO_OCHO, OUTPUT);
+   pinMode(GPIO_NUEVE, OUTPUT);
+   pinMode(GPIO_DIEZ, OUTPUT);
+   pinMode(GPIO_ONCE, OUTPUT);
+   pinMode(GPIO_DOCE, OUTPUT);
+   pinMode(GPIO_Y, OUTPUT);
+   pinMode(GPIO_MENOS, OUTPUT);
+   pinMode(GPIO_VEINTE, OUTPUT);
+   pinMode(GPIO_DIEZ_2, OUTPUT);
+   pinMode(GPIO_CINCO_2, OUTPUT);
+   pinMode(GPIO_MEDIA, OUTPUT);
+   pinMode(GPIO_CUARTO, OUTPUT);
 }
 
 
@@ -97,7 +122,7 @@ void setup() {
 // MAIN
 // ********************************************************************************************* //
 void loop() {
-   //LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  
+   //LowPower.powerDown(SLEEP_8S, ADC_OFF, BOD_OFF);  //works!!! but serial.print not...
    //LowPower.idle(SLEEP_8S, ADC_OFF, TIMER5_OFF, TIMER4_OFF, TIMER3_OFF, 
    //    TIMER2_OFF, TIMER1_OFF, TIMER0_OFF, SPI_OFF, USART3_OFF, 
    //    USART2_OFF, USART1_OFF, USART0_OFF, TWI_OFF);
@@ -121,7 +146,8 @@ void loop() {
 
 // ********************************************************************************************* // 
 // FUNCTIONS
-// ********************************************************************************************* /
+// ********************************************************************************************* //
+
 // increaseHourInterrupt: increases the hour flag
 void increaseHourInterrupt(){
   increaseHourFlag = true;
@@ -168,7 +194,7 @@ void printDate()
    currentHour = date.hour();
    currentMinute = int((date.minute() / 5)) * 5;
 
-   /*
+   
    Serial.print(date.hour(),DEC);
    Serial.print(':');
    Serial.print(date.minute(),DEC);
@@ -180,7 +206,7 @@ void printDate()
    Serial.print(lastHour);
    Serial.print(':');
    Serial.println(lastMinute);
-   */
+   
 
    // Check for a change in time
    if ((currentHour!=lastHour) or (currentMinute!=lastMinute)){
