@@ -36,7 +36,7 @@
 #define GPIO_LA                 25
 #define GPIO_S_2                26
 #define GPIO_UNA                27
-#define GPIO_DOS                28
+#define GPIO_DOS                49
 #define GPIO_TRES               29
 #define GPIO_CUATRO             30
 #define GPIO_CINCO              31
@@ -52,8 +52,8 @@
 #define GPIO_VEINTE             41
 #define GPIO_DIEZ_2             42
 #define GPIO_VEINTI             43
-#define GPIO_CINCO_2            44
-#define GPIO_MEDIA              45
+#define GPIO_CINCO_2            47
+#define GPIO_MEDIA              48
 #define GPIO_CUARTO             46
 
 
@@ -112,9 +112,16 @@ void setup() {
    pinMode(GPIO_MENOS, OUTPUT);
    pinMode(GPIO_VEINTE, OUTPUT);
    pinMode(GPIO_DIEZ_2, OUTPUT);
+   pinMode(GPIO_VEINTI, OUTPUT);
    pinMode(GPIO_CINCO_2, OUTPUT);
    pinMode(GPIO_MEDIA, OUTPUT);
    pinMode(GPIO_CUARTO, OUTPUT);
+
+   // test leds
+   switchOnLeds();
+   delay(5000);
+   switchOffLeds();
+
 }
 
 
@@ -206,7 +213,6 @@ void printDate()
    Serial.print(lastHour);
    Serial.print(':');
    Serial.println(lastMinute);
-   
 
    // Check for a change in time
    if ((currentHour!=lastHour) or (currentMinute!=lastMinute)){
@@ -221,6 +227,12 @@ void printDate()
 
      // Switch off leds
      switchOffLeds();
+
+     // Adapt to "to" hours
+     if (currentMinute==35 or currentMinute==40 or currentMinute==45 or 
+       currentMinute==50 or currentMinute==55){
+       currentHour+=1;
+     }
 
      // Print 'ES LA' or 'SON LAS'
      if (currentHour==1 or currentHour==13) {
@@ -243,34 +255,34 @@ void printDate()
        digitalWrite(GPIO_DOS,HIGH);
      }
      else if (currentHour==3 or currentHour==15) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_TRES,HIGH);
      }
      else if (currentHour==4 or currentHour==16) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_CUATRO,HIGH);
      }
      else if (currentHour==5 or currentHour==17) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_CINCO,HIGH);
      }
      else if (currentHour==6 or currentHour==18) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_SEIS,HIGH);
      }
      else if (currentHour==7 or currentHour==19) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_SIETE,HIGH);
      }
      else if (currentHour==8 or currentHour==20) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_OCHO,HIGH);
      }
      else if (currentHour==9 or currentHour==21) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_NUEVE,HIGH);
      }
      else if (currentHour==10 or currentHour==22) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_DIEZ,HIGH);
      }
      else if (currentHour==11 or currentHour==23) {
-       digitalWrite(GPIO_DOS,HIGH);
+       digitalWrite(GPIO_ONCE,HIGH);
      }
-     else if (currentHour==12 or currentHour==0) {
-       digitalWrite(GPIO_DOS,HIGH);
+     else if (currentHour==12 or currentHour==0 or currentHour==24) {
+       digitalWrite(GPIO_DOCE,HIGH);
      }
 
      // Print '-', 'Y' or 'MENOS'
@@ -300,6 +312,9 @@ void printDate()
        digitalWrite(GPIO_VEINTI,HIGH);
        digitalWrite(GPIO_CINCO_2,HIGH);
      }
+     else if (currentMinute==30) {
+       digitalWrite(GPIO_MEDIA,HIGH);
+     }
      
    }
 }
@@ -307,7 +322,14 @@ void printDate()
 
 // switchOffLeds: Switch off all digital outputs
 void switchOffLeds(){
-  for (int i=22; i<46; i++){
+  for (int i=20; i<=49; i++){
     digitalWrite(i,LOW);
+  }
+}
+
+// switchOnLeds: Switch on all digital outputs
+void switchOnLeds(){
+  for (int i=20; i<=49; i++){
+    digitalWrite(i,HIGH);
   }
 }
