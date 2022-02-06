@@ -188,7 +188,7 @@ void increaseMinute(){
   if (newMinute >= 60){
     newMinute = 0;
   }
-  rtc.adjust(DateTime(now.year(), now.month(), now.year(), now.hour(), newMinute, now.second()));
+  rtc.adjust(DateTime(now.year(), now.month(), now.year(), now.hour(), newMinute, 0));
 }
 
 // printDate: Switches on the suitable leds depending on current time
