@@ -140,12 +140,12 @@ void loop() {
    // check increase time
    if (increaseHourFlag == true){
      increaseHour();
-     delay(1000);
+     delay(500);
      increaseHourFlag = false;
    }
    else if (increaseMinuteFlag == true){
      increaseMinute();
-     delay(1000);
+     delay(500);
      increaseMinuteFlag = false;
    }
 }
