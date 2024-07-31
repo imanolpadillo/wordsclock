@@ -52,7 +52,6 @@ def reset(activateAllFirst = False):
         pcf8574.s2.write(GPIOList.S2_6_CINCO_2.value, value)
         pcf8574.s2.write(GPIOList.S2_7_MEDIA.value, value)
         pcf8574.s3.write(GPIOList.S3_0_CUARTO.value, value)
-        pcf8574.s3.write(GPIOList.S3_1_BUTTON.value, value)
         if activateAllFirst == True:
             value = "HIGH"
             time.sleep(5)
