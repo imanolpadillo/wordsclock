@@ -5,12 +5,12 @@ Clock based on words for ArduinoMega or RaspberryPi
 
  1.  Raspi ssh access
 ```
-ssh pi@192.168.0.25
+ssh pi@192.168.0.71
 ```
 
  2. Copy files from PC to Raspi
 ```
-scp /Users/imanolpadillo/Documents/wordsclock/raspberry/*.* pi@192.168.0.25:/home/pi/Documents/wordsclock
+scp /Users/imanolpadillo/Documents/wordsclock/raspberry/*.* pi@192.168.0.71:/home/pi/Documents/wordsclock
 ````
 
  3. Execute wordsclock manually from Raspi
