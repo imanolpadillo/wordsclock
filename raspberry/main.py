@@ -64,13 +64,13 @@ def set_eco_auto_flag(current_time):
     """
     global eco_auto_flag, force_display
     # Set eco_auto_flag at init_hour
-    if int(current_time.strftime("%H")) == EcoModeSchedule.InitHour.value and int(current_time.strftime("%M")) == 0 and \
-        int(current_time.strftime("%S")) == 0 and eco_auto_flag == False:
+    if EcoModeSchedule.Enabled.value == True and int(current_time.strftime("%H")) == EcoModeSchedule.InitHour.value and \
+        int(current_time.strftime("%M")) == 0 and int(current_time.strftime("%S")) == 0 and eco_auto_flag == False:
         leds.reset(False)  # reset all leds
         eco_auto_flag = True
     # Reset eco_auto_flag at end_hour
-    if int(current_time.strftime("%H")) == EcoModeSchedule.EndHour.value and int(current_time.strftime("%M")) == 0 and \
-        int(current_time.strftime("%S")) == 0 and eco_auto_flag == True:
+    if EcoModeSchedule.Enabled.value == True and int(current_time.strftime("%H")) == EcoModeSchedule.EndHour.value and \
+        int(current_time.strftime("%M")) == 0 and int(current_time.strftime("%S")) == 0 and eco_auto_flag == True:
         eco_auto_flag = False
 
 # *************************************************************************************************** 

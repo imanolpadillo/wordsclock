@@ -13,6 +13,7 @@ class ButtonStatus(Enum):
     SuperLongClick = 3
 
 class EcoModeSchedule(Enum):
+    Enabled = True # 'eco mode' activation
     InitHour = 22  # 'eco mode' init hour
     EndHour = 6    # 'eco mode' end hour 
 
