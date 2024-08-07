@@ -5,8 +5,9 @@
 #       https://pypi.org/project/pcf8574-io/
 #    Prerequisites:
 #       Enable I2C in raspi preferences
-#       pip3 install smbus2
-#       pip3 install pcf8574-io
+#       python -m venv wordsclock
+#       wordsclock/bin/pip install smbus2
+#       wordsclock/bin/pip install pcf8574-io
 
 import pcf8574
 import time
