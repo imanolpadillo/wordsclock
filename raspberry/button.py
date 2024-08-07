@@ -1,4 +1,4 @@
-import pcf8574_io
+import pcf8574
 import time
 from wordsclockEnum import ButtonStatus, GPIOList
 # *************************************************************************************************** 
