@@ -1,13 +1,6 @@
 # *************************************************************************************************** 
 # *********************************************** LEDS **********************************************
 # *************************************************************************************************** 
-#    Source: 
-#       https://pypi.org/project/pcf8574-io/
-#    Prerequisites:
-#       Enable I2C in raspi preferences
-#       python -m venv wordsclock
-#       wordsclock/bin/pip install smbus2
-#       wordsclock/bin/pip install pcf8574-io
 
 import pcf8574
 import time
