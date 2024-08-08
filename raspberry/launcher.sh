@@ -1,4 +1,4 @@
-sleep 10
+#!/bin/bash
 cd /home/pi/Documents/wordsclock
 source ./bin/activate
-sudo -u pi python3 main.py
+python3 main.py

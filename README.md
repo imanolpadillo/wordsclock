@@ -37,5 +37,22 @@ kill -7 process_id
  6. Program a cron for executing wordsclock on restart
 ```
 sudo crontab -e -u pi
-@reboot sh /home/pi/Documents/wordsclock/launcher.sh >/home/pi/Documents/wordsclock/logs/cron.log 2>&1
+@reboot /bin/bash /home/pi/Documents/wordsclock/launcher.sh >/home/pi/Documents/wordsclock/logs/cron.log 2>&1
+```
+
+EXTRA: How to deal WIFI change?
+```
+sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
+```
+Add at the end of the file the new WIFI network and password
+```
+network={
+    ssid="Network1"
+    psk="password1"
+}
+
+network={
+    ssid="Network2"
+    psk="password2"
+}
 ```
