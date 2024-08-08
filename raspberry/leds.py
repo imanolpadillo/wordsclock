@@ -54,6 +54,7 @@ def reset(activateAllFirst = False):
 def set_time(current_time):
     hour = int(current_time.strftime("%H"))
     minutes = int(current_time.strftime("%M"))
+    print(str(hour) + ':' + str(minutes))
     #Switch off leds
     reset(False)
     # Adapt to "to" hours
@@ -96,9 +97,9 @@ def set_time(current_time):
         pcf8574.s2.write(GPIOList.S2_0_DOCE.value, "LOW")
     # Display '-', 'Y' or 'MENOS'
     if minutes==5 or minutes==10 or minutes==15 or minutes==20 or minutes==25 or minutes==30:
-        pcf8574.s2.write(GPIOList.S2_1_Y, "LOW")
+        pcf8574.s2.write(GPIOList.S2_1_Y.value, "LOW")
     elif minutes==35 or minutes==40 or minutes==45 or minutes==50 or minutes==55:
-        pcf8574.s2.write(GPIOList.S2_2_MENOS, "LOW")
+        pcf8574.s2.write(GPIOList.S2_2_MENOS.value, "LOW")
     #Display minutes
     if minutes==5 or hour==55:
         pcf8574.s2.write(GPIOList.S2_6_CINCO_2.value, "LOW")
