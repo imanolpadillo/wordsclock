@@ -48,12 +48,18 @@ def reset(activateAllFirst = False):
         pcf8574.s3.write(GPIOList.S3_0_CUARTO.value, value)
         if activateAllFirst == True:
             value = "HIGH"
-            time.sleep(5)
+            time.sleep(2)
         counter-=1
 
 def set_time(current_time):
     hour = int(current_time.strftime("%H"))
     minutes = int(current_time.strftime("%M"))
+    #Minutes must be always rounded
+    if minutes % 5 != 0:
+        minutes = (minutes // 5 + 1) * 5
+        if minutes >= 60:
+            minutes = 0
+            hour+=1
     print(str(hour) + ':' + str(minutes))
     #Switch off leds
     reset(False)
