@@ -10,7 +10,6 @@ class ButtonStatus(Enum):
     NoClick = 0
     ShortClick = 1
     LongClick = 2
-    SuperLongClick = 3
 
 class EcoModeSchedule(Enum):
     Enabled = True # 'eco mode' activation

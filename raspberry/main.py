@@ -39,19 +39,20 @@ def thread_check_time():
 def thread_check_button():
     """
     Checks button status:
-    - LongClick: Enables eco_manual mode
-    - ShortClick: Disables eco_manual/eco_auto mode
+    - LongClick: Reset leds
+    - ShortClick: Toogle eco_manual
     """
     global eco_auto_flag, eco_manual_flag, force_display
     button_status = button.get_status()
-    if button_status == ButtonStatus.LongClick.value:
-        leds.reset(False)  # reset all leds 
-        eco_manual_flag = True
-    elif button_status == ButtonStatus.ShortClick.value:
-        eco_manual_flag = False
-        eco_auto_flag = False
-        force_display = True
-    elif button_status == ButtonStatus.SuperLongClick.value:
+    if button_status == ButtonStatus.ShortClick.value:
+        if eco_manual_flag == True:
+            eco_manual_flag = False
+            eco_auto_flag = False
+            force_display = True
+        else:
+            leds.reset(False)  # reset all leds 
+            eco_manual_flag = True           
+    elif button_status == ButtonStatus.LongClick.value:
         leds.reset(True)  # reset all leds (activating all first)
         eco_manual_flag = False
         eco_auto_flag = False
