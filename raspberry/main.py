@@ -13,7 +13,7 @@ from wordsclockEnum import ButtonStatus, EcoModeSchedule
 # ***************************************************************************************************
 eco_auto_flag = False       # deactivates display in eco time slot
 eco_manual_flag = False     # deactivates display when long click unt short click
-force_display = False       # displays time instantaneously
+force_display = True        # displays time instantaneously
 
 # *************************************************************************************************** 
 # FUNCTIONS
@@ -45,6 +45,7 @@ def thread_check_button():
     global eco_auto_flag, eco_manual_flag, force_display
     button_status = button.get_status()
     if button_status == ButtonStatus.LongClick.value:
+        leds.reset(False)  # reset all leds 
         eco_manual_flag = True
     elif button_status == ButtonStatus.ShortClick.value:
         eco_manual_flag = False

@@ -25,6 +25,7 @@ scp /Users/imanolpadillo/Documents/wordsclock/raspberry/*.* pi@192.168.0.71:/hom
  4. Execute wordsclock manually from Raspi
 ```
 cd /home/pi/Documents/wordsclock
+source ./bin/activate
 python3 main.py
 ```
 

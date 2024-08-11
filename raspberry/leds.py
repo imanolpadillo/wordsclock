@@ -101,15 +101,15 @@ def set_time(current_time):
     elif minutes==35 or minutes==40 or minutes==45 or minutes==50 or minutes==55:
         pcf8574.s2.write(GPIOList.S2_2_MENOS.value, "LOW")
     #Display minutes
-    if minutes==5 or hour==55:
+    if minutes==5 or minutes==55:
         pcf8574.s2.write(GPIOList.S2_6_CINCO_2.value, "LOW")
-    if minutes==10 or hour==50:
+    if minutes==10 or minutes==50:
         pcf8574.s2.write(GPIOList.S2_4_DIEZ_2.value, "LOW")
-    if minutes==15 or hour==45:
+    if minutes==15 or minutes==45:
         pcf8574.s3.write(GPIOList.S3_0_CUARTO.value, "LOW")
-    if minutes==20 or hour==40:
+    if minutes==20 or minutes==40:
         pcf8574.s2.write(GPIOList.S2_3_VEINTE.value, "LOW")
-    if minutes==25 or hour==35:
+    if minutes==25 or minutes==35:
         pcf8574.s2.write(GPIOList.S2_5_VEINTI.value, "LOW")
         pcf8574.s2.write(GPIOList.S2_6_CINCO_2.value, "LOW")
     if minutes==30:

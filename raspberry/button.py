@@ -20,23 +20,26 @@ def get_status():
     __   SuperLongClick
     '''
     global super_long_click_flag
-    if pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == 0:
+    if pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == True:
         super_long_click_flag = False
-        while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == 0:
+        while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == True:
             time.sleep(0.01)
         start_time = time.time()
-        while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == 1:
+        while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == False:
             if time.time() - start_time >= 1.0:  
                 super_long_click_flag = True
+                print('LongClick')
                 return ButtonStatus.LongClick.value           # LongClick threshold 
             time.sleep(0.01) 
+        print('ShortClick')
         return ButtonStatus.ShortClick.value                  # ShortClick threshold 
     elif super_long_click_flag == True:
         # long click remains
         start_time = time.time()
-        while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == 1:
-            if time.time() - start_time >= 2.0:  
+        while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == False:
+            if time.time() - start_time >= 4.0:  
                 super_long_click_flag = False
+                print('SuperLongClick')
                 return ButtonStatus.SuperLongClick.value      # SuperLongClick threshold 
             time.sleep(0.01)
         super_long_click_flag = False
