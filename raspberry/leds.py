@@ -56,10 +56,7 @@ def set_time(current_time):
     minutes = int(current_time.strftime("%M"))
     #Minutes must be always rounded
     if minutes % 5 != 0:
-        minutes = (minutes // 5 + 1) * 5
-        if minutes >= 60:
-            minutes = 0
-            hour+=1
+        minutes = (minutes // 5) * 5
     print(str(hour) + ':' + str(minutes))
     #Switch off leds
     reset(False)
