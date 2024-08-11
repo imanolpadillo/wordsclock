@@ -24,5 +24,11 @@ def get_status():
                 return ButtonStatus.LongClick.value           # LongClick threshold 
             time.sleep(0.01) 
         print('ShortClick')
-        return ButtonStatus.ShortClick.value                  # ShortClick threshold           
+        return ButtonStatus.ShortClick.value                  # ShortClick threshold   
+    # workarround to set button pin working again after reset
+    print('workarround')
+    pcf8574.s3.pin_mode(GPIOList.S3_1_BUTTON.value, "OUTPUT")
+    pcf8574.s3.write(GPIOList.S3_1_BUTTON.value, "HIGH")
+    pcf8574.s3.pin_mode(GPIOList.S3_1_BUTTON.value, "INPUT")
+    time.sleep(0.1)         
     return ButtonStatus.NoClick.value
