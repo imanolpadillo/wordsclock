@@ -13,7 +13,7 @@ from wordsclockEnum import ButtonStatus, EcoModeSchedule
 # ***************************************************************************************************
 eco_auto_flag = False       # deactivates display in eco time slot
 eco_manual_flag = False     # deactivates display when long click unt short click
-force_display = True        # displays time instantaneously
+force_display = False       # displays time instantaneously
 
 # *************************************************************************************************** 
 # FUNCTIONS
@@ -80,5 +80,8 @@ def set_eco_auto_flag(current_time):
 # ***************************************************************************************************
 if __name__ == "__main__":
     leds.reset(True)  # reset all leds (activating all first)
+    madrid_tz = pytz.timezone('Europe/Madrid')
+    current_time = datetime.datetime.now(madrid_tz)
+    leds.set_time(current_time)
     thread_check_time()
     thread_check_button()
