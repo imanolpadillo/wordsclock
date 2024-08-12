@@ -14,7 +14,6 @@ def get_status():
     _    LongClick:  reset leds
     '''
     if pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == True:
-        super_long_click_flag = False
         while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == True:
             time.sleep(0.01)
         start_time = time.time()

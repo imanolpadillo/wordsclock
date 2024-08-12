@@ -1,7 +1,7 @@
 # *************************************************************************************************** 
 # **************************************** WORDSCLOCK (MAIN) ****************************************
 # *************************************************************************************************** 
-import datetime
+import datetime, time
 import pytz
 import threading
 import button
@@ -13,13 +13,38 @@ from wordsclockEnum import ButtonStatus, EcoModeSchedule
 # ***************************************************************************************************
 eco_auto_flag = False       # deactivates display in eco time slot
 eco_manual_flag = False     # deactivates display when long click unt short click
-force_display = False       # displays time instantaneously
+force_display = True        # displays time instantaneously
 
 # *************************************************************************************************** 
 # FUNCTIONS
 # ***************************************************************************************************
 
-def thread_check_time():
+def thread_check_button():
+    """
+    Checks button status:
+    - LongClick: Reset leds
+    - ShortClick: Toogle eco_manual
+    """
+    while True:
+        global eco_auto_flag, eco_manual_flag, force_display
+        button_status = button.get_status()
+        if button_status == ButtonStatus.ShortClick.value:
+            if eco_manual_flag == True:
+                eco_manual_flag = False
+                eco_auto_flag = False
+                force_display = True
+            else:
+                leds.reset(False)  # reset all leds 
+                eco_manual_flag = True           
+        elif button_status == ButtonStatus.LongClick.value:
+            leds.reset(True)  # reset all leds (activating all first)
+            eco_manual_flag = False
+            eco_auto_flag = False
+            force_display = True
+        # Schedule the function to be called again after 0.1 second
+        time.sleep(0.1) 
+
+def check_time():
     """
     At every new hour checks if eco_mode must be activated.
     At minute%5 updates time.
@@ -33,32 +58,6 @@ def thread_check_time():
     if force_display == True or (eco_auto_flag == False and eco_manual_flag == False and (current_time.minute % 5 == 0 and current_time.second == 0)):
         force_display = False
         leds.set_time(current_time)
-    # Schedule the function to be called again after 1 second
-    threading.Timer(1, thread_check_time).start()
-
-def thread_check_button():
-    """
-    Checks button status:
-    - LongClick: Reset leds
-    - ShortClick: Toogle eco_manual
-    """
-    global eco_auto_flag, eco_manual_flag, force_display
-    button_status = button.get_status()
-    if button_status == ButtonStatus.ShortClick.value:
-        if eco_manual_flag == True:
-            eco_manual_flag = False
-            eco_auto_flag = False
-            force_display = True
-        else:
-            leds.reset(False)  # reset all leds 
-            eco_manual_flag = True           
-    elif button_status == ButtonStatus.LongClick.value:
-        leds.reset(True)  # reset all leds (activating all first)
-        eco_manual_flag = False
-        eco_auto_flag = False
-        force_display = True
-    # Schedule the function to be called again after 0.1 second
-    threading.Timer(0.1, thread_check_button).start()
 
 def set_eco_auto_flag(current_time):
     """
@@ -80,8 +79,10 @@ def set_eco_auto_flag(current_time):
 # ***************************************************************************************************
 if __name__ == "__main__":
     leds.reset(True)  # reset all leds (activating all first)
-    madrid_tz = pytz.timezone('Europe/Madrid')
-    current_time = datetime.datetime.now(madrid_tz)
-    leds.set_time(current_time)
-    thread_check_time()
-    thread_check_button()
+    # Create a thread to check button status
+    thread = threading.Thread(target=thread_check_button)
+    thread.start()
+
+    while True:
+        check_time()
+        time.sleep(1)
