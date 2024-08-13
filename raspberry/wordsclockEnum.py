@@ -11,10 +11,16 @@ class ButtonStatus(Enum):
     ShortClick = 1
     LongClick = 2
 
+class FlashModeSchedule(Enum):
+    SecondsOn = 3       # seconds to be leds activated
+    Enabled = True      # 'flash mode' activation
+    InitTime = "20:30"  # 'flash mode' init time
+    EndTime = "22:00"   # 'flash mode' end time 
+
 class EcoModeSchedule(Enum):
-    Enabled = True # 'eco mode' activation
-    InitHour = 22  # 'eco mode' init hour
-    EndHour = 6    # 'eco mode' end hour 
+    Enabled = True      # 'eco mode' activation
+    InitTime = "22:00"  # 'eco mode' init time
+    EndTime = "6:00"    # 'eco mode' end time 
 
 class GPIOList(Enum):
     S0_0_E = "p0"
