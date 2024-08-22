@@ -8,8 +8,10 @@ from enum import Enum
 # ***************************************************************************************************
 class ButtonStatus(Enum):
     NoClick = 0
-    ShortClick = 1
-    LongClick = 2
+    Short1Click = 1    # eco_mode
+    Short2Click = 2    # alwayson_mode
+    Short3Click = 3    # flash_mode
+    LongClick = 4      # alwaysoff_mode
 
 class FlashModeSchedule(Enum):
     SecondsOn = 3       # seconds to be leds activated
