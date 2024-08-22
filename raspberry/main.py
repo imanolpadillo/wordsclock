@@ -79,22 +79,13 @@ def check_time ():
             leds.reset(False)     
         else:                                      # alwayson_mode
             leds.set_time(current_time)
-            
-def set_eco_flag(enabled, initTime, endTime):
-    """
-    Returns true if eco_schedule is activated
-    """
-    if enabled == True:
-        # check if current time is between scheduled time
-        is_time_between_flag = is_time_between(initTime, endTime)
-        return is_time_between_flag
-    else:
-        return False
 
-def is_time_between(start_time_str, end_time_str):
+def set_eco_flag (enabled, start_time_str, end_time_str):
     """
-    check if current time is between init and end times
+    check if current time is between eco scheduled init and end times
     """
+    if enabled == False:
+        return False
     # Parse the input time strings into datetime objects
     start_time = datetime.datetime.strptime(start_time_str, '%H:%M').time()
     end_time = datetime.datetime.strptime(end_time_str, '%H:%M').time()
