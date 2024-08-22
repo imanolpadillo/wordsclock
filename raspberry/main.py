@@ -39,12 +39,16 @@ def thread_check_button():
             alwaysoff_mode = False
             # Set new status
             if button_status == ButtonStatus.Short1Click.value:                # eco_mode
+                print('ECO_MODE')
                 eco_mode = True
             elif button_status == ButtonStatus.Short2Click.value:              # alwayson_mode
+                print('ALWAYSON_MODE')
                 alwayson_mode = True
             elif button_status == ButtonStatus.Short3Click.value:              # flash_mode
+                print('FLASH_MODE')
                 flash_mode = True
             elif button_status == ButtonStatus.LongClick.value:                # alwaysoff_mode
+                print('ALWAYSOFF_MODE')
                 leds.reset(True)  # reset all leds (activating all first)
                 alwaysoff_mode = True
             # Notify that a new mode has been activated
