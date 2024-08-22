@@ -63,7 +63,7 @@ def check_time ():
     global change_in_mode, eco_mode, flash_mode, alwayson_mode, alwaysoff_mode
     madrid_tz = pytz.timezone('Europe/Madrid')
     current_time = datetime.datetime.now(madrid_tz)
-    if ((current_time.minute == 0 and current_time.second == 0)) or change_in_mode == True:
+    if (current_time.minute % 5 == 0 and current_time.second == 0) or change_in_mode == True:
         change_in_mode = False
         eco_flash = False         # in eco mode: flash flag
         eco_alwaysoff = False     # in eco mode: alwaysoff flag
