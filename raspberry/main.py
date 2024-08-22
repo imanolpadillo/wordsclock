@@ -69,8 +69,8 @@ def check_time ():
         eco_alwaysoff = False     # in eco mode: alwaysoff flag
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
-            eco_alwaysoff = set_eco_flag(EcoModeSchedule.alwaysoffEnabled.value, EcoModeSchedule.alwaysoffInitTime.value, EcoModeSchedule.alwaysoffEndTime.value)
-            eco_flash = set_eco_flag(EcoModeSchedule.flashEnabled.value, EcoModeSchedule.flashInitTime.value, EcoModeSchedule.flashEndTime.value)
+            eco_alwaysoff = get_eco_flag(EcoModeSchedule.alwaysoffEnabled.value, EcoModeSchedule.alwaysoffInitTime.value, EcoModeSchedule.alwaysoffEndTime.value)
+            eco_flash = get_eco_flag(EcoModeSchedule.flashEnabled.value, EcoModeSchedule.flashInitTime.value, EcoModeSchedule.flashEndTime.value)
         if alwaysoff_mode or eco_alwaysoff:        # alwaysoff_mode
             leds.reset(False)     
         elif flash_mode or eco_flash:              # flash_mode
@@ -80,7 +80,7 @@ def check_time ():
         else:                                      # alwayson_mode
             leds.set_time(current_time)
 
-def set_eco_flag (enabled, start_time_str, end_time_str):
+def get_eco_flag (enabled, start_time_str, end_time_str):
     """
     check if current time is between eco scheduled init and end times
     """
