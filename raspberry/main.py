@@ -11,7 +11,7 @@ from wordsclockEnum import ButtonStatus, EcoModeSchedule, FLASH_SECONDS_ON
 # ***************************************************************************************************
 # CONSTANTS AND GLOBAL VARIABLES
 # ***************************************************************************************************
-change_in_mode = True       # defines if a mode has been changed
+change_in_mode = False      # defines if a mode has been changed
 eco_mode = True             # mixes scheduled alwayson + alwaysoff + flash
 flash_mode = False          # leds are only activated during a few seconds in time change
 alwayson_mode = False       # leds are always activated
