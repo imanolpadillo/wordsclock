@@ -6,23 +6,22 @@ from enum import Enum
 # *************************************************************************************************** 
 # CONSTANTS AND GLOBAL VARIABLES
 # ***************************************************************************************************
+FLASH_SECONDS_ON = 3            # seconds to be leds activated in flash mode
+
 class ButtonStatus(Enum):
     NoClick = 0
-    Short1Click = 1    # eco_mode
-    Short2Click = 2    # alwayson_mode
-    Short3Click = 3    # flash_mode
-    LongClick = 4      # alwaysoff_mode
+    Short1Click = 1             # eco_mode
+    Short2Click = 2             # alwayson_mode
+    Short3Click = 3             # flash_mode
+    LongClick = 4               # alwaysoff_mode
 
-class FlashModeSchedule(Enum):
-    SecondsOn = 3       # seconds to be leds activated
-    Enabled = True      # 'flash mode' activation
-    InitTime = "20:30"  # 'flash mode' init time
-    EndTime = "22:00"   # 'flash mode' end time 
-
-class EcoModeSchedule(Enum):
-    Enabled = True      # 'eco mode' activation
-    InitTime = "22:00"  # 'eco mode' init time
-    EndTime = "6:00"    # 'eco mode' end time 
+class EcoModeSchedule(Enum):    # eco_mode configuration
+    flashEnabled = True         # 'flash' enabled
+    flashInitTime = "20:30"     # 'flash' init time
+    flashEndTime = "22:00"      # 'flash' end time 
+    alwaysoffEnabled = True     # 'alwaysoff' enabled
+    alwaysoffInitTime = "22:00" # 'alwaysoff' init time
+    alwaysoffEndTime = "6:00"   # 'alwaysoff' end time 
 
 class GPIOList(Enum):
     S0_0_E = "p0"
