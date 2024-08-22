@@ -19,7 +19,7 @@ def get_status():
         start_time = time.time()
         while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == False: 
             if time.time() - start_time >= 1.0:  
-                print('LongClick')
+                # print('LongClick')
                 return ButtonStatus.LongClick.value       # LongClick threshold 
             time.sleep(0.01) 
         start_time = time.time()
