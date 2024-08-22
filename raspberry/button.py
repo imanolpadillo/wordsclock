@@ -9,11 +9,10 @@ from wordsclockEnum import ButtonStatus, GPIOList
 def get_status():
     '''
     Function that returns button status:
-          NoClick
-    .     Short1Click: eco mode
-    . .   Short2Click: alwaysOn mode
-    . . . Short3Click: flash mode
-    __    LongClick: alwaysOff mode
+    .     Short1Click
+    . .   Short2Click
+    . . . Short3Click
+    __    LongClick
     '''
     if pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == True: 
         while pcf8574.s3.read(GPIOList.S3_1_BUTTON.value) == True: 
@@ -54,4 +53,4 @@ def get_status():
     pcf8574.s3.write(GPIOList.S3_1_BUTTON.value, "HIGH")
     pcf8574.s3.pin_mode(GPIOList.S3_1_BUTTON.value, "INPUT")
     time.sleep(0.1)         
-    return ButtonStatus.NoClick.value
+    return ButtonStatus.NoClick.value                     # NoClick -> no function defined
