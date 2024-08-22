@@ -109,7 +109,6 @@ if __name__ == "__main__":
     thread.start()
 
     # check time first time avoiding waiting 5 minutes
-    global change_in_mode
     change_in_mode = True
     while True:
         check_time()
