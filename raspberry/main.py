@@ -65,7 +65,7 @@ def check_time ():
     current_time = datetime.datetime.now(madrid_tz)
     if ((current_time.minute == 0 and current_time.second == 0)) or change_in_mode == True:
         change_in_mode = False
-        eco_flash == False        # in eco mode: flash flag
+        eco_flash = False         # in eco mode: flash flag
         eco_alwaysoff = False     # in eco mode: alwaysoff flag
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
