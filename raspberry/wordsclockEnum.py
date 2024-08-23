@@ -17,7 +17,7 @@ class ButtonStatus(Enum):
 
 class EcoModeSchedule(Enum):    # eco_mode configuration
     flashEnabled = True         # 'flash' enabled
-    flashInitTime = "20:30"     # 'flash' init time
+    flashInitTime = "21:00"     # 'flash' init time
     flashEndTime = "22:00"      # 'flash' end time 
     alwaysoffEnabled = True     # 'alwaysoff' enabled
     alwaysoffInitTime = "22:00" # 'alwaysoff' init time
