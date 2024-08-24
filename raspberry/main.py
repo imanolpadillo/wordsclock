@@ -91,7 +91,8 @@ def get_eco_flag (enabled, start_time_str, end_time_str):
     end_time = datetime.datetime.strptime(end_time_str, '%H:%M').time()
     
     # Get the current time
-    current_time = datetime.datetime.now().time()
+    madrid_tz = pytz.timezone('Europe/Madrid')
+    current_time = datetime.datetime.now(madrid_tz).time()
     
     # Check if the current time is between the start and end times
     if start_time < end_time:
