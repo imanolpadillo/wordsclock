@@ -6,6 +6,8 @@ import pytz
 import threading
 import button
 import leds
+import wlogging
+from wlogging import LogType, LogMessage
 from wordsclockEnum import ButtonStatus, EcoModeSchedule, FLASH_SECONDS_ON
 
 # ***************************************************************************************************
@@ -39,16 +41,16 @@ def thread_check_button():
             alwaysoff_mode = False
             # Set new status
             if button_status == ButtonStatus.Short1Click.value:                # eco_mode
-                print('ECO_MODE')
+                wlogging.log(LogType.INFO.value,LogMessage.ECO_MODE.name,LogMessage.ECO_MODE.value)
                 eco_mode = True
             elif button_status == ButtonStatus.Short2Click.value:              # alwayson_mode
-                print('ALWAYSON_MODE')
+                wlogging.log(LogType.INFO.value,LogMessage.ALWAYSON_MODE.name,LogMessage.ALWAYSON_MODE.value)
                 alwayson_mode = True
             elif button_status == ButtonStatus.Short3Click.value:              # flash_mode
-                print('FLASH_MODE')
+                wlogging.log(LogType.INFO.value,LogMessage.FLASH_MODE.name,LogMessage.FLASH_MODE.value)
                 flash_mode = True
             elif button_status == ButtonStatus.LongClick.value:                # alwaysoff_mode
-                print('ALWAYSOFF_MODE')
+                wlogging.log(LogType.INFO.value,LogMessage.ALWAYSOFF_MODE.name,LogMessage.ALWAYSOFF_MODE.value)
                 leds.reset(True)  # reset all leds (activating all first)
                 alwaysoff_mode = True
             # Notify that a new mode has been activated
@@ -61,8 +63,12 @@ def check_time ():
     At every minute%5 or mode change checks time display.
     """
     global change_in_mode, eco_mode, flash_mode, alwayson_mode, alwaysoff_mode
-    madrid_tz = pytz.timezone('Europe/Madrid')
-    current_time = datetime.datetime.now(madrid_tz)
+    try:
+        madrid_tz = pytz.timezone('Europe/Madrid')
+        current_time = datetime.datetime.now(madrid_tz)
+    except:
+        wlogging.log(LogType.INFO.value,LogMessage.ERR_WIFI_CONN.name,LogMessage.ERR_WIFI_CONN.value)
+        return False
     if (current_time.minute % 5 == 0 and current_time.second == 0) or change_in_mode == True:
         change_in_mode = False
         eco_flash = False         # in eco mode: flash flag
@@ -104,6 +110,7 @@ def get_eco_flag (enabled, start_time_str, end_time_str):
 # MAIN
 # ***************************************************************************************************
 if __name__ == "__main__":
+    wlogging.log(LogType.INFO.value,LogMessage.SWITCH_ON.name, LogMessage.SWITCH_ON.value)
     leds.reset(True)  # reset all leds (activating all first)
     # Create a thread to check button status
     thread = threading.Thread(target=thread_check_button)
