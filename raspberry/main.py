@@ -73,18 +73,23 @@ def check_time ():
         change_in_mode = False
         eco_flash = False         # in eco mode: flash flag
         eco_alwaysoff = False     # in eco mode: alwaysoff flag
+        log_suffix = ""
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
             eco_alwaysoff = get_eco_flag(EcoModeSchedule.alwaysoffEnabled.value, EcoModeSchedule.alwaysoffInitTime.value, EcoModeSchedule.alwaysoffEndTime.value)
             eco_flash = get_eco_flag(EcoModeSchedule.flashEnabled.value, EcoModeSchedule.flashInitTime.value, EcoModeSchedule.flashEndTime.value)
         if alwaysoff_mode or eco_alwaysoff:        # alwaysoff_mode
             leds.reset(False)     
+            log_suffix = " (OFF)"
         elif flash_mode or eco_flash:              # flash_mode
             leds.set_time(current_time)
             time.sleep(FLASH_SECONDS_ON)
             leds.reset(False)     
+            log_suffix = " (FLASH)"
         else:                                      # alwayson_mode
             leds.set_time(current_time)
+        # Log time change
+        wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M") + log_suffix)
 
 def get_eco_flag (enabled, start_time_str, end_time_str):
     """
