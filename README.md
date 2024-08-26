@@ -42,7 +42,7 @@ sudo crontab -e -u pi
 0 0 * * 0 > /home/pi/Documents/wordsclock/logs/wordsclock.log
 ```
 
- 6. Read Raspi logs
+ 7. Read Raspi logs
 ```
 cd /home/pi/Documents/wordsclock/logs
 cat wordsclock.log
