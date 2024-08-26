@@ -5,8 +5,6 @@
 import pcf8574
 import time
 from wordsclockEnum import GPIOList
-import wlogging
-from wlogging import LogType, LogMessage
 
 # *************************************************************************************************** 
 # FUNCTIONS
@@ -59,7 +57,6 @@ def set_time(current_time):
     #Minutes must be always rounded
     if minutes % 5 != 0:
         minutes = (minutes // 5) * 5
-    wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M"))
     #Switch off leds
     reset(False)
     # Adapt to "to" hours
