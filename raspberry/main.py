@@ -65,7 +65,7 @@ def check_time ():
     global change_in_mode, eco_mode, flash_mode, alwayson_mode, alwaysoff_mode
     try:
         madrid_tz = pytz.timezone('Europe/Madrid')
-        current_time = datetime.datetime.now(madrid_tz)
+        current_time = datetime.datetime.now(madrid_tz).replace(microsecond=0).time()
     except:
         wlogging.log(LogType.INFO.value,LogMessage.ERR_WIFI_CONN.name,LogMessage.ERR_WIFI_CONN.value)
         return False
@@ -78,14 +78,14 @@ def check_time ():
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
             eco_alwaysoff = get_eco_flag(EcoModeSchedule.alwaysoffEnabled.value, EcoModeSchedule.alwaysoffInitTime.value, EcoModeSchedule.alwaysoffEndTime.value)
             eco_flash = get_eco_flag(EcoModeSchedule.flashEnabled.value, EcoModeSchedule.flashInitTime.value, EcoModeSchedule.flashEndTime.value)
-        if alwaysoff_mode or eco_alwaysoff:        # alwaysoff_mode
-            leds.reset(False)     
-            log_suffix = " (OFF)"
-        elif flash_mode or eco_flash:              # flash_mode
+        if flash_mode or eco_flash:                # flash_mode
             leds.set_time(current_time)
             time.sleep(FLASH_SECONDS_ON)
             leds.reset(False)     
             log_suffix = " (FLASH)"
+        elif alwaysoff_mode or eco_alwaysoff:      # alwaysoff_mode
+            leds.reset(False)     
+            log_suffix = " (OFF)"
         else:                                      # alwayson_mode
             leds.set_time(current_time)
         # Log time change

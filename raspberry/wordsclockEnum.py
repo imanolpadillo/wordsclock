@@ -20,8 +20,8 @@ class EcoModeSchedule(Enum):    # eco_mode configuration
     flashInitTime = "21:00"     # 'flash' init time
     flashEndTime = "22:00"      # 'flash' end time 
     alwaysoffEnabled = True     # 'alwaysoff' enabled
-    alwaysoffInitTime = "22:01" # 'alwaysoff' init time
-    alwaysoffEndTime = "5:59"   # 'alwaysoff' end time 
+    alwaysoffInitTime = "22:00" # 'alwaysoff' init time
+    alwaysoffEndTime = "5:55"   # 'alwaysoff' end time 
 
 class GPIOList(Enum):
     S0_0_E = "p0"
