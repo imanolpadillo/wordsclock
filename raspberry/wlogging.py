@@ -38,7 +38,7 @@ logging.basicConfig(filename=current_path+'/logs/wordsclock.log', level=logging.
 def log(logType, logId, message = ''):
     madrid_tz = pytz.timezone('Europe/Madrid')
     now = datetime.now(madrid_tz)
-    log = now.strftime("%Y-%m-%d %H:%M:%S")
+    log = now.strftime("%Y-%m-%d %H:%M")
     if logType == LogType.ERROR.value: 
         logidlength = LOGID_MAX_LEN - 1
     else:
