@@ -76,8 +76,8 @@ def check_time ():
         log_suffix = ""
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
-            eco_alwaysoff = get_eco_flag(EcoModeSchedule.alwaysoffEnabled.value, EcoModeSchedule.alwaysoffInitTime.value, EcoModeSchedule.alwaysoffEndTime.value)
-            eco_flash = get_eco_flag(EcoModeSchedule.flashEnabled.value, EcoModeSchedule.flashInitTime.value, EcoModeSchedule.flashEndTime.value)
+            eco_alwaysoff = get_eco_flag(EcoModeSchedule.alwaysoffEnabled.value, current_time, EcoModeSchedule.alwaysoffInitTime.value, EcoModeSchedule.alwaysoffEndTime.value)
+            eco_flash = get_eco_flag(EcoModeSchedule.flashEnabled.value, current_time, EcoModeSchedule.flashInitTime.value, EcoModeSchedule.flashEndTime.value)
         if flash_mode or eco_flash:                # flash_mode
             leds.set_time(current_time)
             time.sleep(FLASH_SECONDS_ON)
@@ -91,7 +91,7 @@ def check_time ():
         # Log time change
         wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M") + log_suffix)
 
-def get_eco_flag (enabled, start_time_str, end_time_str):
+def get_eco_flag (enabled, current_time, start_time_str, end_time_str):
     """
     check if current time is between eco scheduled init and end times
     """
@@ -100,10 +100,6 @@ def get_eco_flag (enabled, start_time_str, end_time_str):
     # Parse the input time strings into datetime objects
     start_time = datetime.datetime.strptime(start_time_str, '%H:%M').time()
     end_time = datetime.datetime.strptime(end_time_str, '%H:%M').time()
-    
-    # Get the current time
-    madrid_tz = pytz.timezone('Europe/Madrid')
-    current_time = datetime.datetime.now(madrid_tz).time()
     
     # Check if the current time is between the start and end times
     if start_time < end_time:
