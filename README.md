@@ -3,7 +3,12 @@ Clock based on words for ArduinoMega or RaspberryPi
 
 ## 🎮 Raspi commands
 
- 1.  Raspi ssh access
+ 0. Get raspi ip
+```
+ping wordsclock.local
+```
+
+ 2.  Raspi ssh access
 ```
 ssh pi@192.168.0.71
 ```
