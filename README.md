@@ -14,7 +14,7 @@ The action button changes the wordsclock mode in the following way:
   - ALWAYS_OFF_MODE: The leds are always switched off.
   - ALWAYS_ON_MODE:  The leds are always switched on.
   - FLASH_MODE:      The leds are only activated during some seconds when minutes change.
-  - ECO_MODE:        For every hour of the week, it can be scheduled the clock mode to ALWAYS_ON_MODE, FLASH_MODE or ALWAYS_OFF_MODE. This can be done modifying the variable ECO_MODE_SCHEDULE in [wordsclockEnum.py](wordsclockEnum.py).
+  - ECO_MODE:        For every hour of the week, it can be scheduled the clock mode to ALWAYS_ON_MODE, FLASH_MODE or ALWAYS_OFF_MODE. This can be done modifying the variable ECO_MODE_SCHEDULE in [wordsclockEnum.py](raspberry/wordsclockEnum.py).
 
 
 ## 🎮 Raspi commands
