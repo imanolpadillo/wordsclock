@@ -10,18 +10,25 @@ FLASH_SECONDS_ON = 3            # seconds to be leds activated in flash mode
 
 class ButtonStatus(Enum):
     NoClick = 0
-    Short1Click = 1             # eco_mode
-    Short2Click = 2             # alwayson_mode
-    Short3Click = 3             # flash_mode
+    Short1Click = 1             # alwayson_mode
+    Short2Click = 2             # flash_mode
+    Short3Click = 3             # eco_mode
     LongClick = 4               # alwaysoff_mode
 
-class EcoModeSchedule(Enum):    # eco_mode configuration
-    flashEnabled = True         # 'flash' enabled
-    flashInitTime = "21:00"     # 'flash' init time
-    flashEndTime = "22:00"      # 'flash' end time 
-    alwaysoffEnabled = True     # 'alwaysoff' enabled
-    alwaysoffInitTime = "22:00" # 'alwaysoff' init time
-    alwaysoffEndTime = "5:55"   # 'alwaysoff' end time 
+class ClockMode(Enum):
+    ALWAYSOFF = '0'
+    FLASH = 'F'
+    ALWAYSON = '1'
+
+ECO_MODE_SCHEDULE = ["0000011FFFFFFFF111111F00","0000011FFFFFFFF111111F00","0000011FFFFFFFF111111F00",
+# hours               000000000011111111112222   000000000011111111112222   000000000011111111112222
+#                     012345678901234567890123   012345678901234567890123   012345678901234567890123
+                     "0000011FFFFFFFF111111F00","0000011FFFFFFFF111111F00","00000FF11111111111111F00",
+#                     000000000011111111112222   000000000011111111112222   000000000011111111112222
+#                     012345678901234567890123   012345678901234567890123   012345678901234567890123 
+                     "00000FF11111111111111F00"]
+#                     000000000011111111112222   
+#                     012345678901234567890123  
 
 class GPIOList(Enum):
     S0_0_E = "p0"

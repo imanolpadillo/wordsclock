@@ -48,7 +48,7 @@ def get_status():
         # print('short3Click')
         return ButtonStatus.Short3Click.value             # Short3Click threshold         
     # workarround to set button pin working again after reset
-    print('workarround')
+    #print('workarround')
     pcf8574.s3.pin_mode(GPIOList.S3_1_BUTTON.value, "OUTPUT")
     pcf8574.s3.write(GPIOList.S3_1_BUTTON.value, "HIGH")
     pcf8574.s3.pin_mode(GPIOList.S3_1_BUTTON.value, "INPUT")
