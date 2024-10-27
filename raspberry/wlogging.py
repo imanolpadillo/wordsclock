@@ -24,7 +24,7 @@ class LogMessage(Enum):
     ECO_MODE =      'ECO MODE activated'
     FLASH_MODE =    'FLASH MODE activated'
     ALWAYSON_MODE = 'ALWAYSON MODE activated'
-    ALWAYSOFF_MODE ='ALWAYSON MODE activated'
+    ALWAYSOFF_MODE ='ALWAYSOFF MODE activated'
 
 
 # logging.basicConfig(filename='/home/pi/Documents/weather4cast/logs/weather4cast.log', level=logging.INFO)
