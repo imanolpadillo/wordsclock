@@ -8,7 +8,8 @@ import button
 import leds
 import wlogging
 from wlogging import LogType, LogMessage
-from wordsclockEnum import ButtonStatus, ClockMode, FLASH_SECONDS_ON, ECO_MODE_SCHEDULE
+from wordsclockEnum import ButtonStatus, ClockMode, FLASH_SECONDS_ON, ECO_MODE_SCHEDULE, 
+     ECO_MODE_HOLIDAYS, ECO_MODE_HOLIDAYS_SCHEDULE
 
 # ***************************************************************************************************
 # CONSTANTS AND GLOBAL VARIABLES
@@ -78,7 +79,10 @@ def check_time ():
         log_suffix = ""
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
-            eco_flag = get_eco_flag(current_day, current_time.hour)
+            eco_flag = get_eco_holidays_flag (now.today(), current_time.hour)
+            if eco_flag = False:
+                # No holiday
+                eco_flag = get_eco_flag(current_day, current_time.hour)
             if eco_flag == ClockMode.ALWAYSOFF.value: 
                 eco_alwaysoff = True
             elif eco_flag == ClockMode.FLASH.value: 
@@ -95,6 +99,20 @@ def check_time ():
             leds.set_time(current_time)
         # Log time change
         wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M") + log_suffix)
+
+def get_eco_holidays_flag (current_date, current_hour):
+    """
+    check if current date is holiday
+    """
+    try:
+        today_tuple = (current_date.month, current_date.day)
+        if today_tuple in ECO_MODE_HOLIDAYS:
+            eco_flag = ECO_MODE_HOLIDAYS_SCHEDULE[current_hour]
+            return eco_flag
+        else:
+            return False
+    except:
+        return False
 
 def get_eco_flag (current_day, current_hour):
     """
