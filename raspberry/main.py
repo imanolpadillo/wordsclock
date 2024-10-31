@@ -8,7 +8,7 @@ import button
 import leds
 import wlogging
 from wlogging import LogType, LogMessage
-from wordsclockEnum import ButtonStatus, ClockMode, FLASH_SECONDS_ON, ECO_MODE_SCHEDULE, 
+from wordsclockEnum import ButtonStatus, ClockMode, FLASH_SECONDS_ON, ECO_MODE_SCHEDULE, \
      ECO_MODE_HOLIDAYS, ECO_MODE_HOLIDAYS_SCHEDULE
 
 # ***************************************************************************************************
