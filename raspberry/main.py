@@ -80,7 +80,7 @@ def check_time ():
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
             eco_flag = get_eco_holidays_flag (now.today(), current_time.hour)
-            if eco_flag = False:
+            if eco_flag == False:
                 # No holiday
                 eco_flag = get_eco_flag(current_day, current_time.hour)
             if eco_flag == ClockMode.ALWAYSOFF.value: 
