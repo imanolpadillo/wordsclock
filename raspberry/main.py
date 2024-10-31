@@ -79,10 +79,7 @@ def check_time ():
         log_suffix = ""
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
-            eco_flag = get_eco_holidays_flag (now.today(), current_time.hour)
-            if eco_flag == False:
-                # No holiday
-                eco_flag = get_eco_flag(current_day, current_time.hour)
+            eco_flag = get_eco_flag(now.today(), current_day, current_time.hour)
             if eco_flag == ClockMode.ALWAYSOFF.value: 
                 eco_alwaysoff = True
             elif eco_flag == ClockMode.FLASH.value: 
@@ -100,27 +97,18 @@ def check_time ():
         # Log time change
         wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M") + log_suffix)
 
-def get_eco_holidays_flag (current_date, current_hour):
+def get_eco_flag (current_date, current_day, current_hour):
     """
     check if current date is holiday
+    check if current time is between eco scheduled init and end times
     """
     try:
         today_tuple = (current_date.month, current_date.day)
         if today_tuple in ECO_MODE_HOLIDAYS:
             eco_flag = ECO_MODE_HOLIDAYS_SCHEDULE[current_hour]
-            return eco_flag
         else:
-            return False
-    except:
-        return False
-
-def get_eco_flag (current_day, current_hour):
-    """
-    check if current time is between eco scheduled init and end times
-    """
-    try:
-        today_schedule = ECO_MODE_SCHEDULE[current_day]
-        eco_flag = today_schedule[current_hour]
+            today_schedule = ECO_MODE_SCHEDULE[current_day]
+            eco_flag = today_schedule[current_hour]
         return eco_flag
     except:
         return ClockMode.ALWAYSON.value
