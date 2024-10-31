@@ -107,6 +107,7 @@ def get_eco_flag (current_date, current_day, current_hour):
         if today_tuple in ECO_MODE_HOLIDAYS:
             eco_flag = ECO_MODE_HOLIDAYS_SCHEDULE[current_hour]
         else:
+            # No holiday
             today_schedule = ECO_MODE_SCHEDULE[current_day]
             eco_flag = today_schedule[current_hour]
         return eco_flag
