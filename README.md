@@ -32,7 +32,9 @@ ssh pi@192.168.0.71
  2. Prerequisites:
 ```
 Enable I2C in raspi preferences
+cd /Documents
 python -m venv wordsclock
+mkdir ./wordsclock/logs
 wordsclock/bin/pip install smbus2
 wordsclock/bin/pip install pcf8574-io
 wordsclock/bin/pip install pytz
@@ -73,15 +75,21 @@ EXTRA: How to deal WIFI change?
 ```
 sudo nano /etc/wpa_supplicant/wpa_supplicant.conf
 ```
-Add at the end of the file the new WIFI network and password
+The WIFI with the higher priority number will be the first one to be checked.
 ```
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+country=ES
+
 network={
     ssid="Network1"
     psk="password1"
+    priority=10
 }
 
 network={
     ssid="Network2"
     psk="password2"
+    priority=5
 }
 ```
