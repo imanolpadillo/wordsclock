@@ -38,7 +38,7 @@ mkdir ./wordsclock/logs
 wordsclock/bin/pip install smbus2
 wordsclock/bin/pip install pcf8574-io
 wordsclock/bin/pip install pytz
-wordsclock/bin/pip install holidays
+wordsclock/bin/pip install holidays-es
 ```
 
  3. Copy files from PC to Raspi

@@ -3,7 +3,7 @@
 # *************************************************************************************************** 
 import datetime, time
 import pytz
-import holidays
+from holidays_es import Province, HolidaySpain
 import threading
 import button
 import leds
@@ -98,21 +98,25 @@ def check_time ():
         # Log time change
         wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M") + log_suffix)
 
-def is_today_spanish_national_holiday():
+def is_today_regional_holiday() -> bool:
     """
-    Check if today is a Spanish national holiday
+    Return True if today (Europe/Madrid time) is a public holiday in Álava (province 'VI'),
+    using the 'holidays-es' package and the correct classes: Province, HolidaySpain.
     """
-    madrid_tz = pytz.timezone('Europe/Madrid')
-    today = datetime.datetime.now(madrid_tz).today()
-    spanish_holidays = holidays.Spain()  # No 'year' argument
+    try:
+        # Get today's date in Spain's peninsular timezone
+        madrid_tz = pytz.timezone("Europe/Madrid")
+        today = datetime.datetime.now(madrid_tz).date()
 
-    # Filter for national holidays (not regional/local)
-    national_holidays = {
-        date for date, name in spanish_holidays.items()
-        if "Nacional" in name or "national" in name.lower()
-    }
-
-    return today in national_holidays
+        holiday_alava = HolidaySpain(province=Province.ALAVA, year=today.year)
+        
+        # Check if today's date is in the list of regional or national holidays
+        return any(holiday.date == today for holiday in holiday_alava.regional) or \
+               any(holiday.date == today for holiday in holiday_alava.national)
+    
+    except Exception as err:
+        print(f"[ERROR] is_today_regional_holiday: {err}")
+        return False
 
 def get_eco_flag (current_date, current_day, current_hour):
     """
@@ -121,7 +125,7 @@ def get_eco_flag (current_date, current_day, current_hour):
     """
     try:
         today_tuple = (current_date.month, current_date.day)
-        if today_tuple in ECO_MODE_HOLIDAYS or is_today_spanish_national_holiday():
+        if today_tuple in ECO_MODE_HOLIDAYS or is_today_regional_holiday():
             eco_flag = ECO_MODE_HOLIDAYS_SCHEDULE[current_hour]
         else:
             # No holiday
