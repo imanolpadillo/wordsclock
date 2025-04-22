@@ -3,7 +3,7 @@
 # *************************************************************************************************** 
 import datetime, time
 import pytz
-from holidays_es import Province, HolidaySpain
+import holidays
 import threading
 import button
 import leds
@@ -97,26 +97,23 @@ def check_time ():
             leds.set_time(current_time)
         # Log time change
         wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M") + log_suffix)
-
-def is_today_regional_holiday() -> bool:
+    
+def is_today_regional_holiday():
     """
-    Return True if today (Europe/Madrid time) is a public holiday in Álava (province 'VI'),
-    using the 'holidays-es' package and the correct classes: Province, HolidaySpain.
+    Check if today is a Spanish national holiday
     """
     try:
-        # Get today's date in Spain's peninsular timezone
         madrid_tz = pytz.timezone("Europe/Madrid")
         today = datetime.datetime.now(madrid_tz).date()
 
-        holiday_alava = HolidaySpain(province=Province.ALAVA, year=today.year)
-        
-        # Check if today's date is in the list of regional or national holidays
-        return any(holiday.date == today for holiday in holiday_alava.regional) or \
-               any(holiday.date == today for holiday in holiday_alava.national)
-    
+        # Holidays for Basque Country (PV) 
+        regional_holidays = holidays.Spain(subdiv="PV")
+
+        # Is it a holiday?
+        return today in regional_holidays
     except Exception as err:
         print(f"[ERROR] is_today_regional_holiday: {err}")
-        return False
+        return False   
 
 def get_eco_flag (current_date, current_day, current_hour):
     """

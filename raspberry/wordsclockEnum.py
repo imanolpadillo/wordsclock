@@ -22,7 +22,7 @@ class ClockMode(Enum):
 
 ECO_MODE_HOLIDAYS = [
     # (month, day)
-    # Xmas
+    # Custom Xmas
     (12, 24), 
     (12, 25), 
     (12, 26), 
@@ -37,14 +37,16 @@ ECO_MODE_HOLIDAYS = [
     (1, 4), 
     (1, 5),
     (1, 6), 
-    # Summer
+    # Vitoria Holidays
+    (4, 28),
+    (7, 25),
     (8, 4), 
     (8, 5), 
     (8, 6), 
     (8, 7), 
     (8, 8), 
     (8, 9), 
-    # Spanish National Holidays
+    # Spanish/Regional Holidays  -> obtained also from holidays library
     (5, 1), 
     (8, 15), 
     (10, 12),
