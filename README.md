@@ -26,7 +26,7 @@ ping wordsclock.local
 
  2.  Raspi ssh access
 ```
-ssh pi@192.168.0.71
+ssh pi@192.168.0.41
 ```
 
  2. Prerequisites:
@@ -43,7 +43,7 @@ wordsclock/bin/pip install holidays
 
  3. Copy files from PC to Raspi
 ```
-scp /Users/imanolpadillo/Documents/wordsclock/raspberry/*.* pi@192.168.0.41:/home/pi/Documents/wordsclock
+scp /Users/imanol/Documents/GitHub/wordsclock/raspberry/*.* pi@192.168.0.41:/home/pi/Documents/wordsclock
 ````
 
  4. Execute wordsclock manually from Raspi

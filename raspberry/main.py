@@ -80,7 +80,7 @@ def check_time ():
         log_suffix = ""
         # Check current mode
         if eco_mode:                               # eco_mode: it is derived to alwaysoff, flash or alwayson
-            eco_flag = get_eco_flag(now.today(), current_day, current_time.hour)
+            eco_flag = get_eco_flag(now.today(), current_day, current_time.hour, current_time.minute)
             if eco_flag == ClockMode.ALWAYSOFF.value: 
                 eco_alwaysoff = True
             elif eco_flag == ClockMode.FLASH.value: 
@@ -115,19 +115,21 @@ def is_today_regional_holiday():
         print(f"[ERROR] is_today_regional_holiday: {err}")
         return False   
 
-def get_eco_flag (current_date, current_day, current_hour):
+def get_eco_flag (current_date, current_day, current_hour, current_minute):
     """
     check if current date is holiday
     check if current time is between eco scheduled init and end times
+    Each schedule has 48 values (one per half hour of the day)
     """
     try:
+        half_hour_index = current_hour * 2 + (1 if current_minute >= 30 else 0)
         today_tuple = (current_date.month, current_date.day)
         if today_tuple in ECO_MODE_HOLIDAYS or is_today_regional_holiday():
-            eco_flag = ECO_MODE_HOLIDAYS_SCHEDULE[current_hour]
+            eco_flag = ECO_MODE_HOLIDAYS_SCHEDULE[half_hour_index]
         else:
             # No holiday
             today_schedule = ECO_MODE_SCHEDULE[current_day]
-            eco_flag = today_schedule[current_hour]
+            eco_flag = today_schedule[half_hour_index]
         return eco_flag
     except:
         return ClockMode.ALWAYSON.value
