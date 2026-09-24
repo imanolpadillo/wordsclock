@@ -2,4 +2,5 @@
 sleep 10
 cd /home/pi/Documents/wordsclock
 source ./bin/activate
-python3 main.py
+mkdir -p logs
+python3 main.py >> logs/wordsclock.log 2>&1
