@@ -1,17 +1,60 @@
 # *************************************************************************************************** 
 # ********************************************* PCF8574 *********************************************
 # *************************************************************************************************** 
+import threading
+import time
 import pcf8574_io
 from wordsclockEnum import GPIOList
+
+# *************************************************************************************************** 
+# I2C THREAD SAFETY AND RETRY WRAPPER
+# *************************************************************************************************** 
+
+i2c_lock = threading.RLock()
+
+class ThreadSafePCF:
+    """
+    Thread-safe wrapper around pcf8574_io.PCF with automatic retries for transient I2C errors.
+    """
+    def __init__(self, address):
+        self.address = address
+        self._pcf = pcf8574_io.PCF(address)
+
+    def _retry_call(self, func, *args, max_retries=3, delay=0.01, **kwargs):
+        with i2c_lock:
+            for attempt in range(1, max_retries + 1):
+                try:
+                    return func(*args, **kwargs)
+                except (OSError, IOError):
+                    if attempt == max_retries:
+                        raise
+                    time.sleep(delay * attempt)
+
+    def pin_mode(self, pin_name, mode):
+        return self._retry_call(self._pcf.pin_mode, pin_name, mode)
+
+    def write(self, pin_name, val):
+        return self._retry_call(self._pcf.write, pin_name, val)
+
+    def read(self, pin_name):
+        return self._retry_call(self._pcf.read, pin_name)
+
+    def __getattr__(self, item):
+        attr = getattr(self._pcf, item)
+        if callable(attr):
+            def wrapper(*args, **kwargs):
+                return self._retry_call(attr, *args, **kwargs)
+            return wrapper
+        return attr
 
 # *************************************************************************************************** 
 # CONSTANTS AND GLOBAL VARIABLES
 # *************************************************************************************************** 
 
-s0 = pcf8574_io.PCF(0x20)
-s1 = pcf8574_io.PCF(0x21)
-s2 = pcf8574_io.PCF(0x22)
-s3 = pcf8574_io.PCF(0x23)
+s0 = ThreadSafePCF(0x20)
+s1 = ThreadSafePCF(0x21)
+s2 = ThreadSafePCF(0x22)
+s3 = ThreadSafePCF(0x23)
 
 # set pins as output
 s0.pin_mode(GPIOList.S0_0_E.value, "OUTPUT")

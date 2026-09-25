@@ -89,16 +89,27 @@ def check_time ():
                     eco_alwaysoff = True
                 elif eco_flag == ClockMode.FLASH.value: 
                     eco_flash = True
-            if flash_mode or eco_flash:                # flash_mode
-                leds.set_time(current_time)
-                time.sleep(FLASH_SECONDS_ON)
-                leds.reset(False)     
-                log_suffix = " (FLASH)"
-            elif alwaysoff_mode or eco_alwaysoff:      # alwaysoff_mode
-                leds.reset(False)     
-                log_suffix = " (OFF)"
-            else:                                      # alwayson_mode
-                leds.set_time(current_time)
+            
+            # Apply display update with retries
+            max_retries = 3
+            for attempt in range(1, max_retries + 1):
+                try:
+                    if flash_mode or eco_flash:                # flash_mode
+                        leds.set_time(current_time)
+                        time.sleep(FLASH_SECONDS_ON)
+                        leds.reset(False)     
+                        log_suffix = " (FLASH)"
+                    elif alwaysoff_mode or eco_alwaysoff:      # alwaysoff_mode
+                        leds.reset(False)     
+                        log_suffix = " (OFF)"
+                    else:                                      # alwayson_mode
+                        leds.set_time(current_time)
+                    break
+                except Exception as err:
+                    if attempt == max_retries:
+                        raise
+                    time.sleep(0.05 * attempt)
+
             # Log time change
             wlogging.log(LogType.INFO.value,LogMessage.TIME_CHG.value, current_time.strftime("%H:%M") + log_suffix)
     except Exception as err:
